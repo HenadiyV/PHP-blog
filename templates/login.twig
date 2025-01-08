@@ -1,0 +1,25 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+<h1>Login Form</h1>
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert" >
+            {{ message }}
+        </div>
+    {% endif %}
+    <form action="/login-post" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" value="{{ form ? form.username }}">
+        </div>
+        <div class="form-group">
+            <label for="email">email</label>
+            <input type="text" class="form-control" name="email" id="email"  value="{{ form ? form.email }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" >
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+{% endblock %}
