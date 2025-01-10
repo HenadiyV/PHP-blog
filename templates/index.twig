@@ -1,7 +1,7 @@
 {% extends 'parts/base.twig' %}
 
 {% block body %}
-<h1>Home Page</h1>
+{#<h1>Home Page</h1>#}
     {% if user is not null %}
         <p>Hello, {{ user.username|escape }} {{ user.email|escape }}</p>
     {% else %}
@@ -9,70 +9,85 @@
     {% endif %}
 
 <section>
-    <div class="container">
-        <h1 class="mb-3 mt-3">Hello, world!</h1>
-        <div class="container-fluid row">
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col p-1">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{#    <div class="container">#}
+{#        <h1 class="mb-3 mt-3">Welcome to my blog!</h1>#}
+{#        {% set rowCount=1 %}#}
+{#        {% for post in posts %}#}
+{#           {% if rowCount==1 %}#}
+{#        <div class="container-fluid row">#}
+{#            {% endif %}#}
+{#            <div class="col p-1">#}
+{#                <div class="card" style="width: 18rem;">#}
+{#                    <img src="https://dummyimage.com/300x200/4ba34a/004dff" class="card-img-top" alt="{{ post.title|escape }}">#}
+{#                    <div class="card-body">#}
+{#                        <a href="/{{ post.url_key }}" class=""><h5 class="card-title">{{ post.title|escape }}</h5></a>#}
+{#                        <p class="card-text">{{ post.description|escape }}</p>#}
+{#                        <a href="/{{ post.url_key }}" class="">Read more</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            {% set rowCount = rowCount+1 %}#}
+{#            {% if rowCount==1 %}#}
+{#                </div>#}
+{#            {% endif %}#}
+
+{#            {% if rowCount>3 %}#}
+{#                {% set rowCount=1 %}#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </div>#}
 </section>
+<section>
+{#    <div class="container">#}
+{#        <h1 class="mb-3 mt-3">Latest Posts</h1>#}
+{#<div class="row">#}
+{#    <div class="col-md-9">#}
+{#        {% for post in posts %}#}
+
+{#            <div class="row mb-2 bg-light" style="border:1px solid #dddddd">#}
+{#                <div class="col p-3">#}
+{#                {% if post.image_path is not null %}#}
+{#                        <img src="{{ post.image_path }}" class="card-img-top" alt="{{ post.title|escape }}">#}
+{#                     {% endif%}#}
+{#                    <div class="mt-3">#}
+{#                            <a href="/{{ post.url_key }}" class=""><h5 class="card-title">{{ post.title|escape }}</h5></a>#}
+{#                            <span class="text-muted">Hennadiy | {{ post.published_date|date("F d,Y") }}</span>#}
+{#                            <p class="mt-2">{{ post.description|escape }}</p>#}
+{#                            <a href="/{{ post.url_key }}" class="">Read more</a>#}
+{#                        </div>#}
+
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#        <div class="row">#}
+{#            <a href="/blog">View All</a>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="col-md-3">#}
+{#        <div class="container">#}
+{#            <h4>About</h4>#}
+{#            <p>Hello, my name Hennadiy</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+{#    </div>#}
+</section>
+    <section>
+        <div class="container">
+            <h1 class="mb-3 mt-3">Latest Posts</h1>
+            <div class="row">
+                <div class="col-md-9">
+                    {% include 'section/posts.twig' with posts %}
+                    <div class="row">
+                        <a href="{{ url('blog') }}">View All</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    {% include 'section/about.twig'  %}
+                </div>
+            </div>
+
+        </div>
+    </section>
 {% endblock %}

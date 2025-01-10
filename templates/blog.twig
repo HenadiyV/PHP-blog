@@ -1,0 +1,29 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+
+    {% if user is not null %}
+        <p>Hello, {{ user.username|escape }} {{ user.email|escape }}</p>
+    {% else %}
+    <p>You are not loged in!</p>
+    {% endif %}
+
+
+<section>
+    <div class="container">
+        <h1 class="mb-3 mt-3">Blog</h1>
+        <div class="row">
+            <div class="col-md-9">
+                {% include 'section/posts.twig' with posts %}
+                <div class="row">
+{% include 'section/pagination.twig' with  pagination %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                {% include 'section/about.twig'  %}
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

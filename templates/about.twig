@@ -1,0 +1,4 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1>Hello, {{ user.username|escape }} {{ user.email|escape }}</h1>
+{% endblock %}

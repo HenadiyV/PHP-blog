@@ -2,7 +2,11 @@
 
 use App\Authorization;
 use App\AuthorizationException;
+use App\LatestPost;
+use App\PostMapper;
 use App\Session;
+//use App\Twig\AssetExtension;
+use App\Slim\TwigMiddleware;
 use \Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -15,7 +19,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $loader = new FilesystemLoader('templates');
 $twig = new Environment($loader);
-
+//$twig->addExtension(new AssetExtension());
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();// аналог $_POST
 
@@ -28,6 +32,7 @@ $sessionMiddleware = function (ServerRequestInterface $request, RequestHandlerIn
 };
 
 $app->add($sessionMiddleware);
+$app->add(new TwigMiddleware($twig));
 
 $config = include_once 'config/database.php';
 
@@ -39,12 +44,26 @@ $database = new Database($dsn,$username,$password);
 
 $authorithation = new Authorization($database,$session);
 
-$app->get('/',function(ServerRequestInterface $request,ResponseInterface $response)use($twig,$session){
+//$postMapper = new PostMapper($database);
+
+//$app->get('/',function(ServerRequestInterface $request,ResponseInterface $response, $args)use($twig,$session,$postMapper){
+//    $posts = $postMapper->getList('ASC');
+//    $body = $twig->render('index.twig',[
+//            'user'=>$session->getData('user'),
+//        'posts'=>$posts
+//    ]);
+//    $response->getBody()->write($body);
+//return $response;
+//});
+
+$app->get('/',function(ServerRequestInterface $request,ResponseInterface $response)use($twig,$session,$database){
+    $latestPosts = new LatestPost($database);
     $body = $twig->render('index.twig',[
-            'user'=>$session->getData('user')
+        'user'=>$session->getData('user'),
+        'posts'=>$latestPosts->get(4)
     ]);
     $response->getBody()->write($body);
-return $response;
+    return $response;
 });
 
 $app->get('/login',function(ServerRequestInterface $request,ResponseInterface $response)use($twig,$session){
@@ -93,6 +112,58 @@ try{
 $app->get('/logout',function(ServerRequestInterface $request,ResponseInterface $response)use($session){
     $session->setData('user',null);
 return $response->withHeader('Location','/')->withStatus(302);
+});
+
+$app->get('/about',function(ServerRequestInterface $request,ResponseInterface $response)use($twig,$session){
+
+    $body = $twig->render('about.twig',[
+        'user'=>$session->getData('user'),
+    ]);
+    $response->getBody()->write($body);
+    return $response;
+});
+
+$app->get('/blog[/{page}]',function(ServerRequestInterface $request,ResponseInterface $response,$args)use($twig,$session,$database){
+    $postMapper = new PostMapper($database);
+    $page = isset($args['page']) ? (int) $args['page']:1;
+    $limit = 2;
+    try{
+        $posts = $postMapper->getList($page,$limit,'DESC');
+        $totalCount = $postMapper->getTotalCount();
+        $body = $twig->render('blog.twig',[
+            'user'=>$session->getData('user'),
+            'posts'=>$posts,
+            'pagination' => [
+                'current' => $page,
+                'paging' => ceil($totalCount / $limit)
+            ]
+        ]);
+        $response->getBody()->write($body);
+        return $response;
+    }catch(Exception $e){
+        //throw new Exception('Page not found.');
+        return $response->withHeader('Location','/blog')->withStatus(302);
+    }
+
+});
+
+
+$app->get('/{url_key}',function(ServerRequestInterface $request,ResponseInterface $response, $args)use($twig,$session,$database){
+    $postMapper = new PostMapper($database);
+    $post = $postMapper->getByUrlKey((string) $args['url_key']);
+
+    if(empty($post)){
+        $body = $twig->render('not-found.twig');
+    }else{
+    $body = $twig->render('post.twig',[
+        'url_key'=>$args['url_key'],
+        'user'=>$session->getData('user'),
+        'post'=>$post
+    ]);
+    }
+    $response->getBody()->write($body);
+    return $response;
+
 });
 
 $app->run();
