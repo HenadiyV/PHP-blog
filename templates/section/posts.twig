@@ -3,7 +3,7 @@
     <div class="row mb-2 bg-light" style="border:1px solid #dddddd">
         <div class="col p-3">
             {% if post.image_path is not null %}
-                <img src="{{ asset_url(post.image_path) }}" class="card-img-top" alt="{{ post.title|escape }}">
+                <img src="{{ asset_url(post.image_path) }}" class="card-img-top" alt="{{ post.title|escape }}" style="width: 200px;height: 200px">
             {% endif%}
             <div class="mt-3">
                 <a href="{{ url(post.url_key) }}" class=""><h5 class="card-title">{{ post.title|escape }}</h5></a>
