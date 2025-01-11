@@ -5,6 +5,7 @@ use App\Route\AboutPage;
 use App\Route\BlogPage;
 use App\Route\HomePage;
 use App\Route\LoginPage;
+use App\Route\LogoutPage;
 use App\Route\PostRout;
 use App\Route\RegisterPage;
 use App\Session;
@@ -36,22 +37,17 @@ $twig = $container->get(Environment::class);
 $app->add(new SessionMiddleware($session));
 $app->add(new TwigMiddleware($twig));
 
-$config = include_once 'config/database.php';
-
 $app->get('/', HomePage::class . ':execute');
 
 $app->get('/login', LoginPage::class . ':execute');
 
-$app->post('/login-post', LoginPage::class . ':login');
+$app->post('/login-post', LoginPage::class);
 
 $app->get('/register', RegisterPage::class . ':execute');
 
 $app->post('/register-post', RegisterPage::class);
 
-$app->get('/logout',function(ServerRequestInterface $request,ResponseInterface $response)use($session){
-    $session->setData('user',null);
-return $response->withHeader('Location','/')->withStatus(302);
-});
+$app->get('/logout', LogoutPage::class);
 
 $app->get('/about', AboutPage::class);
 

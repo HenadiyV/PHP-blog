@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Twig\Environment;
 
-class AboutPage
+class LogoutPage
 {
     /**
      * @var Environment
@@ -39,10 +39,7 @@ class AboutPage
      */
     public function __invoke(ServerRequestInterface $request,ResponseInterface $response): ResponseInterface {
 
-    $body = $this->twig->render('about.twig',[
-        'user'=>$this->session->getData('user'),
-    ]);
-    $response->getBody()->write($body);
-    return $response;
-}
+        $this->session->setData('user',null);
+        return $response->withHeader('Location','/')->withStatus(302);
+    }
 }

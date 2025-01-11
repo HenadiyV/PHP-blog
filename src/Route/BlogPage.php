@@ -60,7 +60,6 @@ class BlogPage
             $response->getBody()->write($body);
             return $response;
         }catch(Exception $e){
-            //throw new Exception('Page not found.');
             return $response->withHeader('Location','/blog')->withStatus(302);
         }
 

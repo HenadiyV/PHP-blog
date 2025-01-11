@@ -2,7 +2,6 @@
 
 namespace App\Route;
 
-use App\Database;
 use App\LatestPost;
 use App\Session;
 use Psr\Http\Message\ResponseInterface as Response;

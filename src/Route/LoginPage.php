@@ -58,7 +58,7 @@ class LoginPage
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function login(ServerRequestInterface $request,ResponseInterface $response): ResponseInterface {
+    public function __invoke(ServerRequestInterface $request,ResponseInterface $response): ResponseInterface {
     $params = (array) $request->getParsedBody();
         try{
             $this->authorithation->login($params['email'], $params['password']);
