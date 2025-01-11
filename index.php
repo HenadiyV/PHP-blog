@@ -8,13 +8,8 @@ use App\Route\LoginPage;
 use App\Route\LogoutPage;
 use App\Route\PostRout;
 use App\Route\RegisterPage;
-use App\Session;
-use App\Slim\TwigMiddleware;
 use PhpDevCommunity\DotEnv;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use \Slim\Factory\AppFactory;
-use Twig\Environment;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -30,12 +25,7 @@ AppFactory::setContainer($container);
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();// аналог $_POST
 
-$session = new Session();
-
-$twig = $container->get(Environment::class);
-
-$app->add(new SessionMiddleware($session));
-$app->add(new TwigMiddleware($twig));
+$app->add($container->get(SessionMiddleware::class));
 
 $app->get('/', HomePage::class . ':execute');
 
